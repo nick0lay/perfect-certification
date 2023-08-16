@@ -59,10 +59,10 @@ def save_weather(temp: [float]):
 
 
 @flow(name="Weather Flow", log_prints=True, retries=3, retry_delay_seconds=5)
-def pipeline(lat: float, lon: float):
+def pipeline(lat: float = 38.9, lon: float = -77.0):
     temp = fetch_weather(lat, lon)
-    temp_lat = fetch_weather_list_lat(-77.0)
-    temp_lon = fetch_weather_list_lon(38.9)
+    temp_lat = fetch_weather_list_lat(lon)
+    temp_lon = fetch_weather_list_lon(lat)
     result = save_weather([temp] + temp_lat + temp_lon)
     return result
 
