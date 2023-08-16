@@ -63,8 +63,15 @@ def pipeline(lat: float = 38.9, lon: float = -77.0):
     temp = fetch_weather(lat, lon)
     temp_lat = fetch_weather_list_lat(lon)
     temp_lon = fetch_weather_list_lon(lat)
-    result = save_weather([temp] + temp_lat + temp_lon)
+    temp_subflow = subflow(lat, lon)
+    result = save_weather([temp] + temp_lat + temp_lon + [temp_subflow])
     return result
+
+
+@flow(name="Weather Flow Subflow")
+def subflow(lat: float = 38.9, lon: float = -77.0):
+    temp = fetch_weather(lat, lon)
+    return temp
 
 
 if __name__ == "__main__":
